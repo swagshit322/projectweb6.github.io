@@ -162,7 +162,15 @@ $apps = $pdo->query("SELECT * FROM applications ORDER BY id DESC")->fetchAll();
                             <td><?php echo htmlspecialchars($app['email']); ?></td>
                             <td><?php echo htmlspecialchars($app['birthdate'] ?? '—'); ?></td>
                             <td><code><?php echo htmlspecialchars($app['gender']); ?></code></td>
-                            <td><small title="<?php echo htmlspecialchars($app['biography'] ?? ''); ?>"><?php echo htmlspecialchars(mb_strimwidth($app['biography'] ?? '', 0, 40, "...")); ?></small></td>
+                            <td>
+                                <small title="<?php echo htmlspecialchars($app['biography'] ?? ''); ?>">
+                                    <?php 
+                                    $bio_text = $app['biography'] ?? '';
+                                    // Безопасно обрезаем строку стандартными средствами, если она длиннее 40 символов
+                                    echo htmlspecialchars(strlen($bio_text) > 40 ? substr($bio_text, 0, 40) . '...' : $bio_text); 
+                                    ?>
+                                </small>
+                            </td>
                             <td><code><?php echo htmlspecialchars($app['login'] ?? '—'); ?></code></td>
                             <td>
                                 <div style="display: flex; align-items: center;">
